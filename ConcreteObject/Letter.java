@@ -70,8 +70,8 @@ public static boolean [] [] d() {
 }
 public static boolean [] [] e() {
 	boolean l [] [] = {
-			{f,t,t,t,f},
 			{t,t,t,t,t},
+			{t,f,f,f,t},
 			{t,f,f,f,f},
 			{t,f,f,f,f},
 			{t,f,f,f,f},
@@ -105,8 +105,8 @@ public static boolean [] [] g() {
 			{t,f,f,f,f},
 			{t,f,f,f,f},
 			{t,f,t,t,t},
-			{t,f,f,t,t},
-			{t,f,f,t,t},
+			{t,f,f,f,t},
+			{t,f,f,f,t},
 			{f,t,t,t,f}}; 
 	return l;
 }
@@ -135,7 +135,7 @@ public static boolean [] [] i() {
 			{f,f,t,f,f},
 			{f,f,t,f,f},
 			{f,f,t,f,f},
-			{f,f,t,f,f}}; 
+			{t,t,t,t,t}}; 
 	return l;
 }
 public static boolean [] [] j() { 
@@ -145,7 +145,7 @@ public static boolean [] [] j() {
 			{f,f,f,f,t},
 			{f,f,f,f,t},
 			{f,f,f,f,t},
-			{t,f,f,f,t},
+			{f,f,f,f,t},
 			{t,f,f,f,t},
 			{t,f,f,f,t},
 			{t,f,f,f,t},
@@ -161,8 +161,8 @@ public static boolean [] [] k() {
 			{t,t,f,f,f},
 			{t,t,f,f,f},
 			{t,t,f,f,f},
-			{t,t,f,f,f},
 			{t,f,t,f,f},
+			{t,f,f,t,f},
 			{t,f,f,f,t}}; 
 	return l;
 }
@@ -187,7 +187,7 @@ public static boolean [] [] m() {
 			{t,t,f,t,t},
 			{t,t,f,t,t},
 			{t,f,t,f,t},
-			{t,f,t,t,f},
+			{t,f,t,f,t},
 			{t,f,f,f,t},
 			{t,f,f,f,t},
 			{t,f,f,f,t},
@@ -260,7 +260,7 @@ public static boolean [] [] r() {
 			{t,f,t,f,f},
 			{t,f,f,t,f},
 			{t,f,f,t,f},
-			{f,t,f,f,t},
+			{t,f,f,f,t},
 			{t,f,f,f,t}}; 
 	return l;
 }
@@ -310,8 +310,8 @@ public static boolean [] [] v() {
 	boolean l [] [] = {
 			{t,f,f,f,t},
 			{t,f,f,f,t},
-			{f,t,f,t,f},
-			{f,t,f,t,f},
+			{t,f,f,f,t},
+			{t,f,f,f,t},
 			{f,t,f,t,f},
 			{f,t,f,t,f},
 			{f,t,t,t,f},
@@ -322,7 +322,7 @@ public static boolean [] [] v() {
 }
 public static boolean [] [] w() { 
 	boolean l [] [] = {
-			{f,t,t,t,f},
+			{t,f,f,f,t},
 			{t,f,f,f,t},
 			{t,f,f,f,t},
 			{t,f,f,f,t},
@@ -375,4 +375,83 @@ public static boolean [] [] z() {
 		{t,f,f,f,f},
 		{t,t,t,t,t}}; 
 	return l; }
+public static boolean [] [] comma() {
+	boolean l [] [] = {
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,f,f,t,f},
+		{f,f,t,f,f}}; 
+	return l; }
+public static boolean [] [] exclamation() {
+	boolean l [] [] = {
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,f,f,f,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f}}; 
+	return l; }
+public static boolean [] [] period() {
+	boolean l [] [] = {
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f}}; 
+	return l; }
+public static boolean [] [] apostraphe() {
+	boolean l [] [] = {
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,f,f,t,f},
+		{f,f,t,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f}}; 
+	return l; }
+public static boolean [] [] colon() {
+	boolean l [] [] = {
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,f,f,f,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f},
+		{f,t,t,t,f}}; 
+	return l; }
+public static boolean [] [] question() {
+	boolean l [] [] = {
+		{f,f,t,f,f},
+		{f,t,f,t,f},
+		{t,f,f,f,t},
+		{f,f,f,t,f},
+		{f,f,t,f,f},
+		{f,f,t,f,f},
+		{f,f,t,f,f},
+		{f,f,f,f,f},
+		{f,f,t,f,f},
+		{f,f,t,f,f}}; 
+	return l; }
+
 }

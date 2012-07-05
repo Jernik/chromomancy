@@ -1,8 +1,0 @@
-#BlueJ class context
-comment0.params=buffer
-comment0.target=void\ draw(java.awt.image.DataBuffer)
-comment1.params=
-comment1.target=void\ bounce()
-comment2.params=time
-comment2.target=void\ loop(float)
-numComments=3

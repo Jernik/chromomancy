@@ -1,23 +1,25 @@
-package Maps.Up.Up;
+package Maps;
 /**
 * Level 3A map.  Contains Red NPC.
 */
-public class Map extends Maps.Map {
+public class Map3A extends Maps.Map {
 	/**
 	* {inheritdoc}
 	*/
-	public Map() {}
+	public Map3A() {}
 	/**
 	* {inheritdoc}
 	*/
 	public void init() {
-		this.down=new Maps.Up.Map();
-		ConcreteObject.Entity red=new Maps.Up.Up.Red();
+		this.down=new Maps.Map2();
+		this.down.D=this.D;
+		ConcreteObject.Entity red=new Maps.Red3A();
 		red.Color(255,0,0);
 		red.Displacement(400,400);
 		red.D=this.D;
 		this.entities.add(red);
-		((Maps.Up.Up.Red)red).init();
+		((Maps.Red3A)red).init();
+        levelName="Map3A";
 	}
 	/**
 	* {inheritdoc}

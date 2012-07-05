@@ -2,6 +2,7 @@ package Maps;
 /**
 * The Red NPC at level 1
 */
+import ConcreteObject.*;
 public class Red extends ConcreteObject.Entity {
 	/**
 	* The name of the NPC

@@ -1,21 +1,21 @@
-package Maps.Up.Left;
+package Maps;
 /**
-* Shrapnel from killing Level 3C Green Enemy
+* Shrapnel from killing Level 3B Blue Enemy
 */
-public class Shrapnel extends ConcreteObject.Projectile {
+public class ShrapnelBlue3B extends ConcreteObject.Shrapnel {
 	/**
 	* Time this object stays on the field
 	*/
-	int life=(int)(Math.random()*2000);
+	int life=20000;//(int)(Math.random()*10000);
 	/**
 	* Constructor.  Must call psudoconstructors to initialize.
 	*/
-	public Shrapnel() {}
+	public ShrapnelBlue3B() {}
 	/**
 	* {inheritdoc}
 	*/
 	public void draw(java.awt.image.DataBuffer buffer) {
-		int color=(int)(((int)(Math.random()*256)*256+Math.random())*256);
+		int color=(int)(Math.random()*256*256)*256;
 		for (int j=0;j<4;j++) {
 			for (int i=0;i<4;i++) {
 				int x=(int)(i+this.xLoc-2f);

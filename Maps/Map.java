@@ -1,15 +1,25 @@
 package Maps;
 
 import java.util.ArrayList;
-
+import ConcreteObject.*;
 /**
 * Super class for all maps.  These hold level data.
+* Also the level 1 map.
 */
 public class Map {
 	/**
 	* List of Entities that are a part of said map.
 	*/
 	public ArrayList<ConcreteObject.Entity> entities=new ArrayList<ConcreteObject.Entity>();
+	/**
+	* list of dead entities
+	* Made because Kross was messing about
+	*/
+	public ArrayList<ConcreteObject.Entity> deadEntities = new ArrayList<ConcreteObject.Entity>();
+	/**
+	* Name of the level
+	*/
+	public String levelName="Map1";
 	/**
 	* Display object that allows access to other variables.
 	*/
@@ -31,6 +41,10 @@ public class Map {
 	*/
 	public Map right=null;
 	/**
+	* Interactive object at the center of some levels.  Null if there isnt one.
+	*/
+	public Pylon pylon=null;
+	/**
 	* Constructor.
 	*/
 	public Map() {}
@@ -38,8 +52,10 @@ public class Map {
 	* Initialization code.  Creates NPCs and enemies.
 	*/
 	public void init() {
-		this.up=new Maps.Up.Map();
-		this.down=new Maps.Down.Map();
+		this.up=new Maps.Map2();
+		this.up.D=this.D;
+		this.down=new Maps.Map6();
+		this.down.D=this.D;
 		ConcreteObject.Entity red=new Maps.Red();
 		red.Color(255,0,0);
 		red.D=this.D;
@@ -71,7 +87,7 @@ public class Map {
 				}
 			}
 		}
-		s="MADE BY MINAS BENYAMIN AND BRENDAN BERGER";
+		s="MADE BY BRENDAN BERGER AND LUKE MILLER AND MINAS BENYAMIN";
 		for (int i=0;i<s.length();i++) {
 			if (s.charAt(i)!=' ') {
 				boolean[][] letter=Map.letter(s.charAt(i));
@@ -135,7 +151,7 @@ public class Map {
 	}
 	
 	/**
-	* This takes a letter and calls the appropirate method from the 
+	* This takes a letter and calls the appropriate method from the 
 	* Letter class.
 	*/
 	public static boolean[][] letter(char c) {
@@ -166,6 +182,11 @@ public class Map {
 		case 'X':return ConcreteObject.Letter.x();
 		case 'Y':return ConcreteObject.Letter.y();
 		case 'Z':return ConcreteObject.Letter.z();
+				case ',':return ConcreteObject.Letter.comma();
+				case '!':return ConcreteObject.Letter.exclamation();
+				case '.':return ConcreteObject.Letter.period();
+				case '\'':return ConcreteObject.Letter.apostraphe(); 
+				case '?': return ConcreteObject.Letter.question();
 		}
 		return null;
 	}

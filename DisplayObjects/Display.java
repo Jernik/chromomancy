@@ -42,7 +42,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	/**
 	* Mouse object to store current mouse status and location
 	*/
-	public Pointer mouse=new Pointer(0,0);
+	public DisplayObjects.Pointer mouse=new DisplayObjects.Pointer(0,0);
 	/**
 	* The player object
 	*/
@@ -73,10 +73,40 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	*/
 	public int passwordTyped=0;
 	/**
+	 * The inventory screen
+	 */
+	public InventoryScreen inventory = null;
+	/**
 	* Whether or not to display the title.  This is only true when on the
 	* first level.
 	*/
 	public boolean title=true;
+	
+        /**
+	* Whether or not the Inventory is open
+	*/
+	public boolean inventoryOpen=false;
+        /**
+         * the array of what teams/factions are hostile to each other
+         * it is arranged:
+         *   0 1 2 3 4 
+         * 0
+         * 1
+         * 2
+         * 3
+         * 4
+         * 
+         */
+        boolean t=true;
+        boolean f=false;
+        public boolean[][] hostility=
+                    {{f,t,f,f,f},
+                     {t,f,t,f,f},
+                     {f,t,f,f,f,},
+                     {f,f,f,f,f,},
+                     {f,f,f,f,f,}
+                    };
+                
 	
 	/**
 	* Constructor.  This also contains the main loop and the JFrame setup
@@ -84,7 +114,8 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	*/
 	public Display() {
 		betterDoubleBuffer = new BufferedImage(800,800, 1);
-	    dbPlasma = betterDoubleBuffer.getRaster().getDataBuffer(); 
+		dbPlasma = betterDoubleBuffer.getRaster().getDataBuffer(); 
+		inventory = new InventoryScreen(this);
 		field=new FluidField(83,10);
 		field.display=this;
 		setSize(800,800);
@@ -99,20 +130,20 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		drawingThread=new Thread(this);
 		System.out.println("THREAD");
 		drawingThread.start();
-		System.out.println("PRELOOP");
+                System.out.println("PRELOOP");
 		LOOP:while (true) {
 			loopCount++;
 			//try {Thread.sleep(1);}catch(Exception e) {}
-			/*if (frameCount%5==0) {
+			/*if (frameCount%2==0 && false) { //set to true for videomaking
 				try {
-					File frameOut = new File((10000+(frameCount/5))+".png");
+					File frameOut = new File((10000+(frameCount/2))+".png");
 					ImageIO.write(betterDoubleBuffer, "png", frameOut);
-					System.out.println(frameCount/5);
-					if (frameCount/5>=2600) System.exit(0);
+					System.out.println(frameCount/2);
 				} catch (IOException ex) {}
 			}*/
-			//Uncommment for video making
-			step();
+			if(!frameFreeze) {
+				step();
+			}
 			if (you.xLoc<0 && map.left!=null) moveLeft();
 			if (you.xLoc>800 && map.right!=null) moveRight();
 			if (you.yLoc<0 && map.up!=null) moveUp();
@@ -143,6 +174,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		frameFreeze=false;
 		you.yLoc=700;
 		drawingThread.start();
+				you.projectiles.clear();
 	}
 	/**
 	* Method called to proceed to the southern map.  Freezes drawing during
@@ -156,6 +188,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		frameFreeze=false;
 		you.yLoc=100;
 		drawingThread.start();
+				you.projectiles.clear();
 	}
 	/**
 	* Method called to proceed to the western map.  Freezes drawing during
@@ -169,6 +202,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		frameFreeze=false;
 		you.xLoc=700;
 		drawingThread.start();
+				you.projectiles.clear();
 	}
 	/**
 	* Method called to proceed to the eastern map.  Freezes drawing during
@@ -182,6 +216,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		frameFreeze=false;
 		you.xLoc=100;
 		drawingThread.start();
+				you.projectiles.clear();
 	}
 	/**
 	* Freezes the drawing, then splits the JFrame into 9 pieces and hurls
@@ -281,6 +316,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		you.D=this;
 		map.D=this;
 		map.init();
+		//inventory.init();
 	}
 	/**
 	* This is a loop that repeatedly paints the game screen to the buffer.
@@ -292,9 +328,10 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	}
 	/**
 	* This method steps the system through time, calling all sublevel step
-	* methods.  It also detects whether or not the player is dead.
+	* methods.  It also detects whether or not the player is dead. It also updates the inventory
 	*/
 	public void step() {
+		checkCollisions();		
 		field.step();
 		you.loop(0.1f);
 		for (int i=0;i<map.entities.size();i++) {
@@ -305,7 +342,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		}
 	}
 	/**
-	* This draw the game screen to the buffer.
+	* This draws the game screen to the buffer.
 	*/
 	public void paint() {
 		for (int i=0;i<800;i++) {
@@ -327,14 +364,19 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		}
 		g=this.getGraphics();
 		g.drawImage(betterDoubleBuffer,0,0,null);
+		inventory.paint(g);
+		if (map.pylon!=null) {
+			map.pylon.paint(g);
+		}
 		frameCount++;
-		/*	try {
+		if (frameCount%1==1) {//That 1 makes the program run faster, but no frame capture
+			try {
 					File frameOut = new File((10000+(frameCount))+".png");
 					ImageIO.write(betterDoubleBuffer, "png", frameOut);
-					//System.out.println(frameCount);
-					//if (frameCount>=1460) System.exit(0);
+					System.out.println(frameCount);
 			} catch (IOException ex) {}
-		}*/
+		}
+		
 	}
 	
 	/*public int reflect256(int n) {
@@ -351,58 +393,162 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	
 	public void chill() {
 		long time=System.currentTimeMillis();
-		int wait=30-(int)time%30;
+		int wait=10-(int)time%10;
 		//try{Thread.sleep(wait);}catch(Exception e) {}
 	}
-	/**
-	* Main method to create new Display object
-	*/
-	public static void main(String[] args) {
-		Display d=new Display();
+		
+		/**
+		 * this checks collisions between 
+		 * projectiles and you to provide another method of attacking(detonate plasma bomb on impact) 
+		 * and the basis for dropped XP/shards from enemies if there is a collision between a shrapnel and the player, 
+		 * the xp from the shrapnel is added to the player's xp count
+		 * 
+		 * Right now, it just checks every projectile vs the player.
+		 */
+		public void checkCollisions(){
+					//System.out.println("Collisions are, indeed, being checked");
+			for (int i=0;i<map.entities.size();i++) {
+				ConcreteObject.Entity tempEntity=map.entities.get(i);
+				for(int j = 0;j<tempEntity.projectiles.size();j++) {
+					//for(int k = 0;k<map.entities.size();k++) {
+											//if(k==i){
+											   // System.out.println("k=i");
+											   // break;}
+					//boolean intersect = tempEntity.projectiles.get(j).intersect(map.entities.get(k));
+					boolean intersect = tempEntity.projectiles.get(j).intersect(this.you);
+						if(intersect)
+							processCollisions(tempEntity.projectiles.get(j),you);
+													   
+										//}
+				}
+			}
+						
+						for(int i=0;i<map.entities.size();i++){
+							for(int k=0;k<you.projectiles.size();k++){
+								if(you.projectiles.get(k).intersect(map.entities.get(i)))
+									processCollisions(you.projectiles.get(k),map.entities.get(i));
+							}
+						}
+			
+		}
+		/**
+				 * processes collisions
+				 * @param projectile
+				 * @param entity 
+				 */
+	public void processCollisions(ConcreteObject.Projectile projectile, ConcreteObject.Entity entity){
+		//System.out.println("COLLISION DETECTED");
+		
+		projectile.kill(entity);
+		
+			
 	}
+			
+	public void openInventory() {
+                inventory.init();
+                this.frameFreeze=true;
+		inventory.setVisible(true);
+		inventoryOpen=true;
+                
+		  
+	}  
+		  
+	/**
+	* The method that resumes drawing and closes inventory
+	*/
+	public void closeInventory() {
+		inventory.setVisible(false);
+		this.frameFreeze=false;
+		inventoryOpen=false;
+		drawingThread=new Thread(this);
+		drawingThread.start();
+	}
+	
+	public void activatePylon() {
+		frameFreeze=true;
+		map.pylon.activate();
+	}  
+	
+	/**
+	* The method that resumes drawing and deactivates the pylon
+	*/
+	public void deactivatePylon() {
+		frameFreeze=false;
+		map.pylon.deactivate();
+		drawingThread=new Thread(this);
+		drawingThread.start();
+	}
+	
 	/**
 	* KeyPressed handler.  This affects player controls.
 	*/
 	public void keyPressed(KeyEvent e) {
-		int key=e.getKeyCode();
-		if (key==KeyEvent.VK_UP) {
-			setLocation((int)(getLocation().getX()),(int)(getLocation().getY()-2));
-		}
-		if (key==KeyEvent.VK_DOWN) {
-			setLocation((int)(getLocation().getX()),(int)(getLocation().getY()+2));
-		}
-		if (key==KeyEvent.VK_LEFT) {
-			setLocation((int)(getLocation().getX()-2),(int)(getLocation().getY()));
-		}
-		if (key==KeyEvent.VK_RIGHT) {
-			setLocation((int)(getLocation().getX()+2),(int)(getLocation().getY()));
-		}
-		if (key==KeyEvent.VK_W) {
-			you.Acceleration(null,-1);
-		}
-		if (key==KeyEvent.VK_A) {
-			you.Acceleration(-1,null);
-		}
-		if (key==KeyEvent.VK_S) {
-			you.Acceleration(null,1);
-		}
-		if (key==KeyEvent.VK_D) {
-			you.Acceleration(1,null);
-		}
-		if (key==KeyEvent.VK_R) {
-			you.colorJet=1;
-		}
-		if (key==KeyEvent.VK_G) {
-			you.colorJet=2;
-		}
-		if (key==KeyEvent.VK_B) {
-			you.colorJet=0;
+		if (map.pylon==null || !map.pylon.activated) {
+			int key=e.getKeyCode();
+			if (key==KeyEvent.VK_UP) {
+				setLocation((int)(getLocation().getX()),(int)(getLocation().getY()-2));
+			}
+			if (key==KeyEvent.VK_DOWN) {
+				setLocation((int)(getLocation().getX()),(int)(getLocation().getY()+2));
+			}
+			if (key==KeyEvent.VK_LEFT) {
+				setLocation((int)(getLocation().getX()-2),(int)(getLocation().getY()));
+			}
+			if (key==KeyEvent.VK_RIGHT) {
+				setLocation((int)(getLocation().getX()+2),(int)(getLocation().getY()));
+			}
+			if (key==KeyEvent.VK_W) {
+				you.Acceleration(null,-1);
+			}
+			if (key==KeyEvent.VK_A) {
+				you.Acceleration(-1,null);
+			}
+			if (key==KeyEvent.VK_S) {
+				you.Acceleration(null,1);
+			}
+			if (key==KeyEvent.VK_D) {
+				you.Acceleration(1,null);
+			}
+			if (key==KeyEvent.VK_R) {
+				you.colorJet=1;
+			}
+			if (key==KeyEvent.VK_G) {
+				you.colorJet=2;
+			}
+			if (key==KeyEvent.VK_B) {
+				you.colorJet=0;
+			}
+			if (key==KeyEvent.VK_I){
+				if(!inventoryOpen){
+					openInventory();
+				} else closeInventory();
+			}
+			if (key==KeyEvent.VK_O) {
+				if (map.pylon!=null) {
+					if (map.pylon.activated) {
+						deactivatePylon();
+					} else {
+					activatePylon();
+					}
+				}
+			}
+			if(key==KeyEvent.VK_P){
+			try {
+				File frameOut = new File(("Screenie"+(frameCount/5))+".png");
+				ImageIO.write(betterDoubleBuffer, "png", frameOut);
+			} catch (IOException ex) {}
+			}
 		}
 	}
 	/**
 	* KeyReleased handler.  This affects player controls.
 	*/
 	public void keyReleased(KeyEvent e) {
+		if (map.pylon!=null && map.pylon.activated) {
+			map.pylon.actionFrame.keyReleased(e);
+			paint();
+			return;
+		}
 		int key=e.getKeyCode();
 		if (key==KeyEvent.VK_ESCAPE || key==KeyEvent.VK_BACK_SPACE) {
 			System.exit(0);
@@ -422,16 +568,12 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	}
 	/**
 	* KeyTyped handler.  This is for debugging and includes autodeath and
-	* forcing a quit.
+	* forcing a quit.  And this is what gets passed to Pylon windows when
+	* they are activated.
 	*/
 	public void keyTyped(KeyEvent e) {
-		if (e.getKeyChar()==' ') {
+		/*if (e.getKeyChar()==' ') {
 			deathAnimation();
-			//System.out.println(field.density[FluidSolver.IX(20,20)]);
-			/*try {
-				File frameOut = new File("LogisticInterpolation.png");
-				ImageIO.write(betterDoubleBuffer, "png", frameOut);
-				} catch (IOException ex) {}*/ //Uncomment if you want to enable screenies
 		}
 		if (e.getKeyChar()=='e' && passwordTyped==0) {
 			passwordTyped=1;
@@ -441,7 +583,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		}
 		if (e.getKeyChar()=='d' && passwordTyped==2) {
 			System.exit(0);
-		}
+		}*/
 	}
 	/**
 	* This sends mouse actions to the Pointer object
@@ -498,9 +640,11 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	*/
 	public void windowActivated(WindowEvent e) {}
 	/**
-	* Does nothing.
+	* Closes Window
 	*/
-	public void windowClosed(WindowEvent e) {}
+	public void windowClosed(WindowEvent e) {
+		System.exit(0);
+		}
 	/**
 	* Exits when the window is closed.
 	*/
@@ -508,9 +652,11 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		System.exit(0);
 	}
 	/**
-	* Does nothing.
+	* Pauses when screen is moved off of
 	*/
-	public void windowDeactivated(WindowEvent e) {}
+	public void windowDeactivated(WindowEvent e) {
+		openInventory();
+	}
 	/**
 	* Does nothing.
 	*/
@@ -523,5 +669,13 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	* Does nothing.
 	*/
 	public void windowOpened(WindowEvent e) {}
+	
+	/**
+	* Main method to create new Display object
+	*/
+	public static void main(String[] args) {
+		Display d=new Display();
+                
+	}
 
 }

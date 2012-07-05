@@ -223,5 +223,7 @@ public abstract class DynamicObject {
         int blueDifference=Math.abs(colorA%256-colorB%256);
         return redDifference+greenDifference+blueDifference;
     }
+    
+   
 
 }

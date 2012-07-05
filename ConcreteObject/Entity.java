@@ -4,12 +4,22 @@ package ConcreteObject;
 * This is the super class for everything that is not a projectile.
 * Among these are NPCs and enemies.
 */
+import java.awt.Rectangle;
 public class Entity extends DynamicObject {
 
 	/**
 	* Whether or not this entity is firing plasma
 	*/
 	public boolean firing=false;
+        public int blueXP,greenXP,redXP;
+        public String name=null;
+        public int teamTag=0;
+        public int resistance;//the lower this number, the closer the plasma has to be to dissolve an entity
+        
+        /**
+         * how far this entity can see
+         */
+        public int sight=0;
 
 	/**
 	* Null constructor. For initialization, psudoconstructors must be used.
@@ -83,5 +93,38 @@ public class Entity extends DynamicObject {
 	* {@inheritdoc}
 	*/
 	public void emit(DisplayObjects.FluidField field) {}
+        
+        /**
+         * filler method
+         * a way to check if two entities are colliding
+         */
+        public boolean intersect(ConcreteObject.Entity entity2){
+         System.out.println("Really? this is being called?");
+            boolean intersect=false;
+        return intersect;
+        }
+        /**
+         * also a filler, this checks if an entity and a projectile are colliding 
+         * 
+         * @param proj
+         * @return 
+         */
+        //TODO yeah, both of these too
+        public boolean intersect(ConcreteObject.Projectile proj){
+            System.out.println("Really? this is being called?");
+            boolean intersect=false;
+            return intersect;
+        }
+        
+        public void fireBullet(int xVel, int yVel){
+            ConcreteObject.EnemyBullet b = new ConcreteObject.EnemyBullet();
+            b.Displacement((float)xLoc,(float)yLoc);
+            b.Color(this.red,this.green,this.blue);
+            b.xVel=xVel;
+            b.yVel=yVel;
+            b.owner=this;
+            b.D=this.D;
+            this.projectiles.add(b);
+        }
 
 }
