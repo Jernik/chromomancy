@@ -1,8 +1,8 @@
-package Maps.Up.Up;
+package Maps;
 /**
 * Shrapnel from killing Level 3A Red Enemy
 */
-public class Shrapnel extends ConcreteObject.Projectile {
+public class ShrapnelRed3A extends Maps.ShrapnelRed {
 	/**
 	* Time this object stays on the field
 	*/
@@ -10,7 +10,7 @@ public class Shrapnel extends ConcreteObject.Projectile {
 	/**
 	* Constructor.  Must call psudoconstructors to initialize.
 	*/
-	public Shrapnel() {}
+	public ShrapnelRed3A() {}
 	/**
 	* {inheritdoc}
 	*/

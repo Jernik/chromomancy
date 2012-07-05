@@ -26,9 +26,9 @@ public class FluidField {
 	public FluidField(int sideLength,int stepLen) {
 		this.stepLen=stepLen;
 		FluidSolver.N=sideLength-2;
-		diff=0.f;
-		visc=0.f;
-		dt=0.02f;
+		diff=0.0f;
+		visc=0.0f;
+		dt=.02f;
 		rDensity=new float[sideLength*sideLength];
 		gDensity=new float[sideLength*sideLength];
 		bDensity=new float[sideLength*sideLength];

@@ -4,7 +4,7 @@ package ConcreteObject;
 * This class contains player data.  Otherwise, identical to Entity.
 * @see Entity
 */
-public class You extends DynamicObject {
+public class You extends Entity {
 	/**
 	* The currently selected jet.  Different jets have different
 	* powers and colors.
@@ -14,16 +14,40 @@ public class You extends DynamicObject {
 	* Whether or not the player is firing.
 	*/
 	boolean firing=false;
+	public String name = "YOU";
 	
+	/**
+	* the amount of xp the player has
+	*/
+	public int blueXP=0;
+	public int greenXP=0;
+	public int redXP=0;
+	
+	public int redEnergy=1;
+	public int greenEnergy=1;
+	public int blueEnergy=1;
+	
+	public int luminence=30000;
+	public int maxLuminence=30000;
 	/**
 	* Null constructor.  For initialization, use psudoconstructors.
 	*/
 	public You() {}
 	/**
+	* Sets player color to that of the plasma being shot and then draws it 
 	* {@inheritdoc}
 	*/
 	public void draw(java.awt.image.DataBuffer buffer) {
-		int color=(int)(Math.random()*256*256*256);
+		int color;
+		if (luminence==-1) {
+			color=(int)(Math.random()*256*256*256);
+		}
+		else {
+			int maxEnergy=Math.max(redEnergy,Math.max(greenEnergy,blueEnergy));
+			color=this.redEnergy*255/maxEnergy*luminence/maxLuminence*256*256+
+                                this.greenEnergy*255/maxEnergy*luminence/maxLuminence*256+
+                                this.blueEnergy*255/maxEnergy*luminence/maxLuminence;
+		}
 		for (int j=0;j<10;j++) {
 			for (int i=0;i<10;i++) {
 				int x=(int)(i+this.xLoc-5f);
@@ -53,7 +77,22 @@ public class You extends DynamicObject {
 	/**
 	* {@inheritdoc}
 	*/
+		/**
+		 * TODO add a life system that checks color against a base value. being exposed to the same
+		 * color plasma will dull your color (make it closer to black), and when you are completely
+		 * faded, you die
+		 * 
+		 */ 
 	public void loop(float time) {
+		this.red=(colorJet==1)?255:0;
+		this.green=(colorJet==2)?255:0;
+		this.blue=(colorJet==0)?255:0;
+		if (luminence>0) {
+			luminence--;
+			
+		}else if (luminence<-1||luminence==0) {
+				this.killed=true;
+			}
 		int stepLen=D.field.stepLen;
 		xLoc+=xVel*time;
 		yLoc+=yVel*time;
@@ -109,13 +148,19 @@ public class You extends DynamicObject {
 			this.firing=true;
 		}
 		if (!D.mouse.rightDown && this.firing) {
-			Projectile p=new Projectile();
-			p.Displacement(this.xLoc,this.yLoc);
+			PlasmaBomb p=new PlasmaBomb();
+			//p.Displacement(this.xLoc,this.yLoc);
+			p.Displacement((float)xLoc,(float)yLoc);
 			p.Velocity(this.xVel,this.yVel);
 			p.Acceleration(this.xAccel,this.yAccel);
+			p.Color(this.red,this.green,this.blue);
 			p.D=D;
+			p.owner=this;
 			this.projectiles.add(p);
 			this.firing=false;
+		}
+		for (int i=0;i<this.projectiles.size();i++) {
+			projectiles.get(i).emit(field);
 		}
 	}
 

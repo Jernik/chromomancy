@@ -12,4 +12,5 @@ public class Null {
 	Null Null(Null Null) {
 		return Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null)))))))))))))))))))))))))))));
 	}
+        
 }

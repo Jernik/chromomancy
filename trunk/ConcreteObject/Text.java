@@ -72,7 +72,7 @@ public class Text extends Projectile {
 			int right=(int)this.xLoc+words.length()*3;
 			int up=(int)this.yLoc-6;
 			int down=(int)this.yLoc+6;
-			if (((left>this.D.you.xLoc-5 && left<this.D.you.xLoc+5) || (right>this.D.you.xLoc-5 && right<this.D.you.xLoc+5)) && ((up>this.D.you.yLoc-5 && up<this.D.you.yLoc+5) || (down>this.D.you.yLoc-5 && down<this.D.you.yLoc+5))) {
+			if (left<this.D.you.xLoc+5 && right>this.D.you.xLoc-5 && up<this.D.you.yLoc+5 && down>this.D.you.yLoc-5) {
 				this.owner.saying=this.talk;
 				for (int i=0;i<companions.size();i++) {
 					this.owner.projectiles.remove(companions.get(i));
