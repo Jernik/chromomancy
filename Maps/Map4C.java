@@ -19,12 +19,12 @@ public class Map4C extends Maps.Map{
 	public void init() {
 		this.right=new Maps.Map3C();
 		this.right.D=this.D;
-		ConcreteObject.Entity green=new Maps.Green4C();
+		ConcreteObject.Entity green=new Maps.Entities.Green4C();
 		green.Color(0,255,0);
 		green.Displacement(400,400);
 		green.D=this.D;
 		this.entities.add(green);
-		((Maps.Green4C)green).init();
+		((Maps.Entities.Green4C)green).init();
                 levelName="Map4C";
 	}
 	/**

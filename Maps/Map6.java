@@ -1,4 +1,7 @@
 package Maps;
+
+import Maps.Pylon6;
+
 /**
 * Level 6 map.  Kills player immediately upon entry.
 */

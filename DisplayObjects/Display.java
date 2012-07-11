@@ -50,7 +50,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	/**
 	* The map of the current level the player is at
 	*/
-	public Maps.Map map=new Maps.Map();
+	public Maps.Map map=new Maps.Map3C();
 	/**
 	* Starting time of program in milliseconds
 	*/
@@ -80,7 +80,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	* Whether or not to display the title.  This is only true when on the
 	* first level.
 	*/
-	public boolean title=true;
+	public boolean title=false;
 	
         /**
 	* Whether or not the Inventory is open
@@ -340,6 +340,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		if (you.killed) {
 			deathAnimation();
 		}
+                map.update();
 	}
 	/**
 	* This draws the game screen to the buffer.
@@ -422,7 +423,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 										//}
 				}
 			}
-						
+						//This loop checks all projectiles against all entitiess
 						for(int i=0;i<map.entities.size();i++){
 							for(int k=0;k<you.projectiles.size();k++){
 								if(you.projectiles.get(k).intersect(map.entities.get(i)))

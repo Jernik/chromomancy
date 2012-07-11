@@ -10,6 +10,7 @@ package ConcreteObject;
  */
 public class EnemyBullet extends ConcreteObject.Projectile{
     
+    public int life=5000;
     public void kill(ConcreteObject.Entity entity){
     //System.out.println("correct kill method used");
     this.D.you.luminence-=50000;
@@ -33,6 +34,9 @@ public class EnemyBullet extends ConcreteObject.Projectile{
 		for (int i=0;i<this.projectiles.size();i++) {
 			projectiles.get(i).loop(time);
 		}
+                life--;
+                if(life<=0)
+                    kill();
     }
     
 }

@@ -14,6 +14,7 @@ public class Map {
 	/**
 	* list of dead entities
 	* Made because Kross was messing about
+        * unused
 	*/
 	public ArrayList<ConcreteObject.Entity> deadEntities = new ArrayList<ConcreteObject.Entity>();
 	/**
@@ -40,6 +41,10 @@ public class Map {
 	* Map connected to east door.
 	*/
 	public Map right=null;
+        /**
+         * MapAI attached to this map
+         */
+        public AI.MapAI mapAI=null;
 	/**
 	* Interactive object at the center of some levels.  Null if there isnt one.
 	*/
@@ -56,19 +61,23 @@ public class Map {
 		this.up.D=this.D;
 		this.down=new Maps.Map6();
 		this.down.D=this.D;
-		ConcreteObject.Entity red=new Maps.Red();
+		ConcreteObject.Entity red=new Maps.Entities.Red();
 		red.Color(255,0,0);
 		red.D=this.D;
 		this.entities.add(red);
-		ConcreteObject.Entity green=new Maps.Green();
+		ConcreteObject.Entity green=new Maps.Entities.Green();
 		green.Color(0,255,0);
 		green.D=this.D;
 		this.entities.add(green);
-		ConcreteObject.Entity blue=new Maps.Blue();
+		ConcreteObject.Entity blue=new Maps.Entities.Blue();
 		blue.Color(0,0,255);
 		blue.D=this.D;
 		this.entities.add(blue);
+                //mapAI.owner=this;
 	}
+        public void update(){
+//        mapAI.update();
+        }
 	/**
 	* Draws map text, which inclues directions and signs.
 	* @param buffer The databuffer to draw to.
@@ -100,7 +109,7 @@ public class Map {
 				}
 			}
 		}
-		s="DEATH BEYOND HERE";
+		s="PYLON BEYOND HERE";
 		for (int i=0;i<s.length();i++) {
 			if (s.charAt(i)!=' ') {
 				boolean[][] letter=Map.letter(s.charAt(i));

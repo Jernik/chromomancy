@@ -15,6 +15,10 @@ public class Entity extends DynamicObject {
         public String name=null;
         public int teamTag=0;
         public int resistance;//the lower this number, the closer the plasma has to be to dissolve an entity
+        /**
+         * AI attached to this
+         */
+        public AI.BasicAI ai=null;
         
         /**
          * how far this entity can see
