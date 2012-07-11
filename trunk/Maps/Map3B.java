@@ -13,12 +13,12 @@ public class Map3B extends Maps.Map {
 	public void init() {
 		this.left=new Maps.Map2();
 		this.left.D=this.D;
-		ConcreteObject.Entity blue=new Maps.Blue3B();
+		ConcreteObject.Entity blue=new Maps.Entities.Blue3B();
 		blue.Color(0,0,255);
 		blue.Displacement(400,400);
 		blue.D=this.D;
 		this.entities.add(blue);
-		((Maps.Blue3B)blue).init();
+		((Maps.Entities.Blue3B)blue).init();
                 levelName="Map3B";
 	}
 	/**

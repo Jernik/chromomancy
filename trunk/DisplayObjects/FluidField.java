@@ -48,7 +48,8 @@ public class FluidField {
 		FluidSolver.dens_step(FluidSolver.N,rDensity,rSource,xVel,yVel,diff,dt);
 		FluidSolver.dens_step(FluidSolver.N,gDensity,gSource,xVel,yVel,diff,dt);
 		FluidSolver.dens_step(FluidSolver.N,bDensity,bSource,xVel,yVel,diff,dt);
-		for (int i=0;i<rDensity.length;i++) {
+		
+                for (int i=0;i<rDensity.length;i++) {
 			rDensity[i]*=.99f;
 			gDensity[i]*=.99f;
 			bDensity[i]*=.99f;

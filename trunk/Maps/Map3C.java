@@ -16,13 +16,14 @@ public class Map3C extends Maps.Map {
                 this.left=new Maps.Map4C();
 		this.left.D=this.D;
                 levelName="Map3C";
+                this.mapAI=new AI.MapAI();
                 
-		ConcreteObject.Entity green=new Maps.Green3C();
+		ConcreteObject.Entity green=new Maps.Entities.Green3C();
 		green.Color(0,255,0);
 		green.Displacement(100,400);
 		green.D=this.D;
 		this.entities.add(green);
-		((Maps.Green3C)green).init();
+		((Maps.Entities.Green3C)green).init();
                 
 		/*ConcreteObject.Entity green2=new Maps.Green4C();
 		green2.Color(0,230,0);
