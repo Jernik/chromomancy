@@ -19,6 +19,16 @@ public class FluidField {
 	* The primary display.
 	*/
 	public Display display;
+	/**
+	* These 4 values make up the rotation matrix
+	* 
+	* [[a,b],
+	* [c,d]]
+	* 
+	* For geometric transformation of the display.  It is initially set at
+	* the identidy matrix.
+	*/
+	public double a=1,b=0,c=0,d=1;
 	
 	/**
 	* Constructor.  It sets all of the constants and clears all of the buffers.
@@ -48,8 +58,7 @@ public class FluidField {
 		FluidSolver.dens_step(FluidSolver.N,rDensity,rSource,xVel,yVel,diff,dt);
 		FluidSolver.dens_step(FluidSolver.N,gDensity,gSource,xVel,yVel,diff,dt);
 		FluidSolver.dens_step(FluidSolver.N,bDensity,bSource,xVel,yVel,diff,dt);
-		
-                for (int i=0;i<rDensity.length;i++) {
+		for (int i=0;i<rDensity.length;i++) {
 			rDensity[i]*=.99f;
 			gDensity[i]*=.99f;
 			bDensity[i]*=.99f;
@@ -62,11 +71,23 @@ public class FluidField {
 	* Interpolates values between gridlines using the OpenGL shading
 	* algorithm.  Outputs the 3 color values as an int with blue being
 	* bits 0-8, green being 9-16, and red being 17-24.
+	* 
+	* It also applies randomized geometric transformations to the display.
 	*/
 	public int interpolatedDensity(int x,int y) {
 		float rDens,gDens,bDens;
 		float diagDens,downDens,upDens,leftDens,rightDens;
 		float diagDist,downDist,upDist,leftDist,rightDist;
+		double tempX=a*(x-400)+b*(y-400)+400;
+		double tempY=c*(x-400)+d*(y-400)+400;
+		if (x==0 && y==0) {
+			a+=Math.random()/2-0.25;
+			b+=Math.random()/2-0.25;
+			c+=Math.random()/2-0.25;
+			d+=Math.random()/2-0.25;
+		}
+		x=(int)(tempX)%800;
+		y=(int)(tempY)%800;
 		if (x%stepLen>=y%stepLen) {
 			diagDens=rDensity[FluidSolver.IX(x/stepLen+1,y/stepLen)];
 			downDens=rDensity[FluidSolver.IX(x/stepLen+1,y/stepLen+1)];
