@@ -121,7 +121,7 @@ public class Entity extends DynamicObject {
         }
         
         public void fireBullet(int xVel, int yVel){
-            ConcreteObject.EnemyBullet b = new ConcreteObject.EnemyBullet();
+            ConcreteObject.BouncingBullet b = new ConcreteObject.BouncingBullet();
             b.Displacement((float)xLoc,(float)yLoc);
             b.Color(this.red,this.green,this.blue);
             b.xVel=xVel;
