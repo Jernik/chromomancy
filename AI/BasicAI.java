@@ -101,7 +101,7 @@ public class BasicAI {
                     if (owner.colorDifference(this.owner.D.field.interpolatedDensity(i,j), this.owner.red*256*256+this.owner.green*256+this.owner.blue) < this.owner.resistance) {
                         this.inDanger = true;
                         //System.out.println(this.owner.name + "is in danger");
-                        System.out.println(i+" "+j);
+                        //System.out.println(i+" "+j);
                         dangerSource[i][j]=owner.colorDifference(this.owner.D.map.mapAI.colorLevels[i][j], this.owner.red*256*256+this.owner.green*256+this.owner.blue);
                     }
                 }
