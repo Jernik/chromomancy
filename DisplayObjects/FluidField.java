@@ -78,16 +78,6 @@ public class FluidField {
 		float rDens,gDens,bDens;
 		float diagDens,downDens,upDens,leftDens,rightDens;
 		float diagDist,downDist,upDist,leftDist,rightDist;
-		double tempX=a*(x-400)+b*(y-400)+400;
-		double tempY=c*(x-400)+d*(y-400)+400;
-		if (x==0 && y==0) {
-			a+=Math.random()/2-0.25;
-			b+=Math.random()/2-0.25;
-			c+=Math.random()/2-0.25;
-			d+=Math.random()/2-0.25;
-		}
-		x=(int)(tempX)%800;
-		y=(int)(tempY)%800;
 		if (x%stepLen>=y%stepLen) {
 			diagDens=rDensity[FluidSolver.IX(x/stepLen+1,y/stepLen)];
 			downDens=rDensity[FluidSolver.IX(x/stepLen+1,y/stepLen+1)];
