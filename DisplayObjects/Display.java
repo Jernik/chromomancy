@@ -40,6 +40,14 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	*/
 	public DataBuffer dbPlasma=null;
 	/**
+	* Image for double buffering after the transformation matrix is applied
+	*/
+	public BufferedImage postTransformationImage=null;
+	/**
+	* DataBuffer associated with the image after transformation
+	*/
+	public DataBuffer transformationBuffer=null;
+	/**
 	* Mouse object to store current mouse status and location
 	*/
 	public DisplayObjects.Pointer mouse=new DisplayObjects.Pointer(0,0);
@@ -50,7 +58,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	/**
 	* The map of the current level the player is at
 	*/
-	public Maps.Map map=new Maps.Map3C();
+	public Maps.Map map=new Maps.Map();
 	/**
 	* Starting time of program in milliseconds
 	*/
@@ -81,8 +89,17 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	* first level.
 	*/
 	public boolean title=false;
+	/**
+	* Transformation matrix values for the display.  The matrix is
+	*
+	* [[a,b],
+	* [c.d]]
+	*
+	* Initial values are the identidy matrix.
+	*/
+	public double a=1,b=0,c=0,d=1;
 	
-        /**
+    /**
 	* Whether or not the Inventory is open
 	*/
 	public boolean inventoryOpen=false;
@@ -114,7 +131,9 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	*/
 	public Display() {
 		betterDoubleBuffer = new BufferedImage(800,800, 1);
+		postTransformationImage = new BufferedImage(800,800, 1);
 		dbPlasma = betterDoubleBuffer.getRaster().getDataBuffer(); 
+		transformationBuffer = postTransformationImage.getRaster().getDataBuffer(); 
 		inventory = new InventoryScreen(this);
 		field=new FluidField(83,10);
 		field.display=this;
@@ -346,6 +365,14 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	* This draws the game screen to the buffer.
 	*/
 	public void paint() {
+		this.a+=Math.random()/10-0.05;
+		a=(9999*a+1)/10000;
+		this.b+=Math.random()/10-0.05;
+		b=9999*b/10000;
+		this.c+=Math.random()/10-0.05;
+		c=9999*c/10000;
+		this.d+=Math.random()/10-0.05;
+		d=(9999*d+1)/10000;
 		for (int i=0;i<800;i++) {
 			for (int j=0;j<800;j++) {
 				int color=field.interpolatedDensity(i,j);
@@ -363,12 +390,27 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 			g.setFont(new Font("Ariel",Font.PLAIN,90));
 			g.drawString("CHROMOMANCY",50,400);
 		}
-		g=this.getGraphics();
-		g.drawImage(betterDoubleBuffer,0,0,null);
 		inventory.paint(g);
 		if (map.pylon!=null) {
 			map.pylon.paint(g);
 		}
+		for (int i=0;i<800;i++) {
+			for (int j=0;j<800;j++) {
+				int newI=(int)(this.a*i+this.b*j);
+				int newJ=(int)(this.c*i+this.d*j);
+				newI=newI%800;
+				if (newI<0) {
+					newI+=800;
+				}
+				newJ=newJ%800;
+				if (newJ<0) {
+					newJ+=800;
+				}
+				transformationBuffer.setElem(i+j*800,dbPlasma.getElem(newI+800*newJ));
+			}
+		}
+		g=this.getGraphics();
+		g.drawImage(postTransformationImage,0,0,null);
 		frameCount++;
 		if (frameCount%1==1) {//That 1 makes the program run faster, but no frame capture
 			try {
@@ -376,6 +418,9 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 					ImageIO.write(betterDoubleBuffer, "png", frameOut);
 					System.out.println(frameCount);
 			} catch (IOException ex) {}
+		}
+		if (frameCount>3000) {
+			System.exit(0);
 		}
 		
 	}
@@ -395,7 +440,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	public void chill() {
 		long time=System.currentTimeMillis();
 		int wait=10-(int)time%10;
-		//try{Thread.sleep(wait);}catch(Exception e) {}
+		try{Thread.sleep(wait);}catch(Exception e) {}
 	}
 		
 		/**
