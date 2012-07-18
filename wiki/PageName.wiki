@@ -1,4 +1,5 @@
 #summary A tutorial for 0.11.6
+#labels notactuallypagename,Tutorial
 
 = Introduction =
 A tutorial for 0.11.6-ish that covers the basics
