@@ -63,11 +63,6 @@ public class Green3C extends ConcreteObject.Entity {
 			this.projectiles.add(p);
 		}
 	}
-        public void setUpAI(){
-           ai.init();
-           ai.owner=this;
-           ai.checkDanger=true;
-           ai.hostile=true;
-        }
+        
 
 }
