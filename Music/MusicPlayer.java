@@ -67,7 +67,9 @@ public class MusicPlayer implements Runnable {
 		try {
 			synth = MidiSystem.getSynthesizer();
 			synth.open();
-		} catch (Exception e){}
+		} catch (Exception e){
+                System.err.println("Cannot Open Synthesizer");
+                }
 		Soundbank soundbank = synth.getDefaultSoundbank();
 		MidiChannel[] channels = synth.getChannels();
 		MidiChannel	channel = channels[0];
@@ -87,7 +89,8 @@ public class MusicPlayer implements Runnable {
 			}
 			try {
 				Thread.sleep(soonestTime-(System.currentTimeMillis()-startTime));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+                        System.err.println("Cannot Sleep Music Thread");}
 			channels[nextChannelToPlay].noteOn(scores[nextChannelToPlay][notesPlayed[nextChannelToPlay]][2],scores[nextChannelToPlay][notesPlayed[nextChannelToPlay]][3]);
 			notesPlayed[nextChannelToPlay]=notesPlayed[nextChannelToPlay]+1;
 			if (notesPlayed[nextChannelToPlay]==scoreLengths[nextChannelToPlay]) {
