@@ -103,7 +103,7 @@ public class Entity extends DynamicObject {
          * a way to check if two entities are colliding
          */
         public boolean intersect(ConcreteObject.Entity entity2){
-         System.out.println("Really? this is being called?");
+        // System.out.println("Really? this is being called?");
             boolean intersect=false;
         return intersect;
         }
@@ -115,13 +115,13 @@ public class Entity extends DynamicObject {
          */
         //TODO yeah, both of these too
         public boolean intersect(ConcreteObject.Projectile proj){
-            System.out.println("Really? this is being called?");
+           // System.out.println("Really? this is being called?");
             boolean intersect=false;
             return intersect;
         }
         
         public void fireBullet(int xVel, int yVel){
-            ConcreteObject.BouncingBullet b = new ConcreteObject.BouncingBullet();
+            ConcreteObject.EnemyBullet b = new ConcreteObject.EnemyBullet();
             b.Displacement((float)xLoc,(float)yLoc);
             b.Color(this.red,this.green,this.blue);
             b.xVel=xVel;
@@ -129,6 +129,12 @@ public class Entity extends DynamicObject {
             b.owner=this;
             b.D=this.D;
             this.projectiles.add(b);
+        }
+        public void setUpAI(){
+           ai.init();
+           ai.owner=this;
+           ai.checkDanger=true;
+           ai.hostile=true;
         }
 
 }
