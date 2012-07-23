@@ -117,6 +117,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
          * 3
          * 4
          * 
+         * (the t's and f's are there for easier readibility)
          */
         boolean t=true;
         boolean f=false;
@@ -127,6 +128,13 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
                      {f,f,f,f,f,},
                      {f,f,f,f,f,}
                     };
+        /**
+         * This is the array of plot flags. plot flags will be tripped based on actions the player takes, and 
+         * different actions will happen based on the values contained in this array. it is ints because I said so.
+         * Right now it has one flag, whether or not the player has visited Reena before, and how they reacted. These will probably need to 
+         * have a lot of documentation.
+         */
+        public int[] plotFlags=new int[1];
                 
 	
 	/**
@@ -155,7 +163,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		drawingThread.start();
 		Thread musicThread=new Thread(new Music.MusicPlayer());
 		musicThread.start();
-        System.out.println("PRELOOP");
+                System.out.println("PRELOOP");
 		LOOP:while (true) {
 			loopCount++;
 			//try {Thread.sleep(1);}catch(Exception e) {}
