@@ -14,6 +14,8 @@ public class Reena2 extends ConcreteObject.Entity {
 	public Reena2() {
 		String[] options=null;
 		Talking.Talk[] responses=null;
+               // this.D.plotFlags[0]=1;
+              if(this.D.plotFlags[0]==0){
 		this.talk=new Talking.Talk("Hello babies!",null,null);
 		this.saying=this.talk;
 			options=new String[1];
@@ -49,12 +51,19 @@ public class Reena2 extends ConcreteObject.Entity {
 								options=new String[2];
 								responses=new Talking.Talk[2];
 								options[0]="Okay";
-								responses[0]=new Talking.Talk("God damn it, you've got to be colorful",null,null);
+								responses[0]=new Talking.Talk("Oh, you don't care?",null,null);
+                                                                this.D.plotFlags[0]=1;
 								options[1]="What is it?";
 								responses[1]=new Talking.Talk("God damn it, you've got to be colorful",null,null);
 								this.talk.responses[0].responses[0].responses[0].responses[0].responses[0].options=options;
 								this.talk.responses[0].responses[0].responses[0].responses[0].responses[0].responses=responses;
+                                                                this.D.plotFlags[0]=2;
 	}
+        if(this.D.plotFlags[0]==1){
+                this.talk=new Talking.Talk("You made it quite clear you didn't want to talk.",null,null);
+		this.saying=this.talk;
+        }
+        }
 	/**
 	* {inheritdoc}
 	*/
