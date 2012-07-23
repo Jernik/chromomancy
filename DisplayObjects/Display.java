@@ -98,6 +98,10 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	* Initial values are the identidy matrix.
 	*/
 	public double a=1,b=0,c=0,d=1;
+	/**
+	* The music player that holds music information
+	*/
+	public Music.MusicPlayer music;
 	
     /**
 	* Whether or not the Inventory is open
@@ -149,7 +153,9 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		drawingThread=new Thread(this);
 		System.out.println("THREAD");
 		drawingThread.start();
-                System.out.println("PRELOOP");
+		Thread musicThread=new Thread(new Music.MusicPlayer());
+		musicThread.start();
+        System.out.println("PRELOOP");
 		LOOP:while (true) {
 			loopCount++;
 			//try {Thread.sleep(1);}catch(Exception e) {}
