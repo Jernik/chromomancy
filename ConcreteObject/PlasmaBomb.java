@@ -75,6 +75,8 @@ public class PlasmaBomb extends ConcreteObject.Projectile{
 				field.bSource[DisplayObjects.FluidSolver.IX(right,down)]+=rootOfPower*this.blue/decay;
 			}
 		}
+                
+                //this.owner.projectiles.remove(this);
 	}
 	
 	/**
