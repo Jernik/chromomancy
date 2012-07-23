@@ -13,7 +13,7 @@ public class Green3C extends ConcreteObject.Entity {
         /**
          * AI attached to this
          */
-         Utility.BasicAI ai=new Utility.BasicAI();
+         AI.BasicAI ai=new AI.BasicAI();
          
 	/**
 	* Constructor.  Must call psudoconstructors to initialize.
