@@ -9,7 +9,7 @@ public class EnemyBullet extends ConcreteObject.Projectile{
     public int life=5000;
     public void kill(ConcreteObject.Entity entity){
     //System.out.println("correct kill method used");
-    this.D.you.luminence-=50000;
+    this.D.you.luminence-=30000;
     this.owner.projectiles.remove(this);
     }
     

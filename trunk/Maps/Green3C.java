@@ -6,7 +6,7 @@ public class Green3C extends ConcreteObject.Entity {
 	/**
 	* Name of NPC
 	*/
-	public String name="Green";
+	public String name="Green3C";
         /**
          * AI attached to this
          */
@@ -23,6 +23,7 @@ public class Green3C extends ConcreteObject.Entity {
         teamTag=1;
         sight=500;
         resistance=128;
+        yAccel=(float).5;
         setUpAI();
         }
 	/**
