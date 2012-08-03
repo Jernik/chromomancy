@@ -1,5 +1,7 @@
 package AI;
 
+import java.util.ArrayList;
+
 /**
  * This class is the basic AI class. it holds a collection of information about
  * the entity it is attached to, methods to update this data, and methods to
@@ -28,25 +30,38 @@ public class BasicAI {
      */
     public boolean inDanger = false;
     
-    public int[][] dangerSource=new int[800][800];
+    /**
+     * the arraylist of where the danger is
+     */
+    public int[][] dangerSource = new int[800][800];
     /**
      * whether or not the AI is being overridden by something else, such as the
      * mapAI
      */
     public boolean override = false;
     /**
+     * if this is being overridden, this provides a better way to interface
+     */
+    public AI.MapAI overlord=null;
+    /**
      * whether or not the player is in range of this entity's sight
      */
     public boolean targetInRange = true;
     /**
-     * the location of the nearest safe place
+     * the location of safe places
      */
-    public float xLocSafe, yLocSafe;
+    public ArrayList<Float> xLocSafe=new ArrayList<Float>();
+    public ArrayList<Float> yLocSafe=new ArrayList<Float>();
+    //public float xLocSafe, yLocSafe;
     /**
      * firing cooldown
      */
     public int cooldown = 0;
     
+    /**
+     * how far this AI looks for danger
+     */
+    public int safetySearchRadius=20;
 
     /**
      * Null constructor
@@ -63,46 +78,52 @@ public class BasicAI {
      */
     public void update() {
         //this.owner.D.map.mapAI.update();
-        if (checkDanger) {
-            isInDanger();
+        if (this.owner.killed == false) {
+            if (checkDanger) {
+                isInDanger();
+            }
+            if (inDanger) {
+                findSafePlace();
+            }
+            //checkPlayerLoc();
+            if (!this.owner.killed && !override) {
+                updateOwner();
+            }
+            if (cooldown > 0) {
+                cooldown--;
+            }
+            resetStuff();
         }
-        if (inDanger) {
-            findSafePlace();
-        }
-        //checkPlayerLoc();
-        if (!this.owner.killed && !override) {
-            updateOwner();
-        }
-        if (cooldown > 0) {
-            cooldown--;
-        }
-        resetStuff();
-        
+
     }
+
     /**
      * this resets values
      */
-    public void resetStuff(){
-    inDanger = false;
-    dangerSource=new int [800][800];
+    public void resetStuff() {
+        inDanger = false;
+        dangerSource=new int[800][800];
+        //TODO reset safeplace if safeplace is no longer safe or if owner is pretty close to safeplace
     }
 
     /**
      * this method will check this.owner.map.mapAI.colorLevels to see if there
      * is a concentration of similar colored plasma that will lead to
      * dissolvement within 6 cells
+     * Whoo, it works!
      */
     public void isInDanger() {
-        for (int i = (int) (this.owner.xLoc - 3); i < (int) (this.owner.xLoc + 3); i++) {
-            for (int j = (int) (this.owner.yLoc - 3); i < (int) (this.owner.yLoc + 3); i++) {
+        
+        for (int i = (int) (this.owner.xLoc - safetySearchRadius); i < (int) (this.owner.xLoc + safetySearchRadius); i++) {
+            for (int j = (int) (this.owner.yLoc - safetySearchRadius); j < (int) (this.owner.yLoc + safetySearchRadius); j++) {
                 //System.out.println(this.owner.xLoc+" "+this.owner.yLoc);
-                 if (i <= 800 && i >= 0 && j <= 800 && j >= 0) {
+                if (i <= 800 && i >= 0 && j <= 800 && j >= 0) {
                     //System.out.println(owner.colorDifference(this.owner.D.field.interpolatedDensity(i,j), this.owner.red*256*256+this.owner.green*256+this.owner.blue));
-                    if (owner.colorDifference(this.owner.D.field.interpolatedDensity(i,j), this.owner.red*256*256+this.owner.green*256+this.owner.blue) < this.owner.resistance) {
+                    if (owner.colorDifference(this.owner.D.field.interpolatedDensity(i, j), this.owner.red * 256 * 256 + this.owner.green * 256 + this.owner.blue) > this.owner.resistance) {
                         this.inDanger = true;
                         //System.out.println(this.owner.name + "is in danger");
                         //System.out.println(i+" "+j);
-                        dangerSource[i][j]=owner.colorDifference(this.owner.D.map.mapAI.colorLevels[i][j], this.owner.red*256*256+this.owner.green*256+this.owner.blue);
+                        dangerSource[i][j] = owner.colorDifference(this.owner.D.map.mapAI.colorLevels[i][j], this.owner.red * 256 * 256 + this.owner.green * 256 + this.owner.blue);
                     }
                 }
             }
@@ -110,11 +131,21 @@ public class BasicAI {
     }
 
     /**
-     * This will check against dangerSource
+     * This will check against dangerSource and find a safe place to go
      */
     public void findSafePlace() {
-        
-        
+        System.out.println(this.owner.name + "Searching for safety");
+        for(int i=(int) (this.owner.xLoc - safetySearchRadius); i < (int) (this.owner.xLoc + safetySearchRadius); i++){
+            for (int j = (int) (this.owner.yLoc - safetySearchRadius); j < (int) (this.owner.yLoc + safetySearchRadius); j++) {
+                if(
+                        (owner.colorDifference(dangerSource[i][j],this.owner.resistance)
+                        <0))
+                    this.xLocSafe.add((float)i);
+                    this.yLocSafe.add((float)j);
+                    //System.out.println(i+", "+j); Oh god, so much printing
+            }
+        }
+
     }
 
     /**
@@ -190,9 +221,9 @@ public class BasicAI {
     }
 
     /**
-     * this method calculates where the player will be in... 50
+     * this method calculates where the target will be in... 50
      * cycles(arbitrary) then returns an array of floats that is the player's
-     * predicted location. BETTER TARGET METHOD USED NOW.
+     * predicted location. BETTER TARGET METHOD USED NOW.(or... will be, not used yet...I am a bit lazy)
      *
      * @return {xLoc,yLoc}
      */
@@ -225,5 +256,9 @@ public class BasicAI {
      * this is what the entity does normally, ie. when it is not in danger
      */
     public void normalMovement() {
+        if(this.owner.yLoc<20)
+            this.owner.yAccel+=.05;
+        if(this.owner.yLoc>500)
+            this.owner.yAccel-=.05;
     }
 }

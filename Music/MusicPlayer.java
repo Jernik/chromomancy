@@ -17,7 +17,7 @@ public class MusicPlayer implements Runnable {
 	public int[] minDelays=
 	{3000,1300,1000,1000,1000,1000};//6 channels.  These are the min milliseconds between similar progressions.
 
-	public int[][][] scores= 
+	public int[][][] scores=
 	{
 	{
 	{0,1,60,80},
@@ -90,7 +90,7 @@ public class MusicPlayer implements Runnable {
 			try {
 				Thread.sleep(soonestTime-(System.currentTimeMillis()-startTime));
 			} catch (Exception e) {
-                        System.err.println("Cannot Sleep Music Thread");}
+                        //System.err.println("Cannot Sleep Music Thread");}
 			channels[nextChannelToPlay].noteOn(scores[nextChannelToPlay][notesPlayed[nextChannelToPlay]][2],scores[nextChannelToPlay][notesPlayed[nextChannelToPlay]][3]);
 			notesPlayed[nextChannelToPlay]=notesPlayed[nextChannelToPlay]+1;
 			if (notesPlayed[nextChannelToPlay]==scoreLengths[nextChannelToPlay]) {
@@ -103,4 +103,5 @@ public class MusicPlayer implements Runnable {
 		}
 	}
 
+}
 }

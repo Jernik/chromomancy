@@ -453,5 +453,48 @@ public static boolean [] [] question() {
 		{f,f,t,f,f},
 		{f,f,t,f,f}}; 
 	return l; }
+public static boolean [] [] rightParenthesis() {
+	boolean l [] [] = {
+		{f,f,t,f,f},
+		{f,f,f,t,f},
+		{f,f,f,t,f},
+		{f,f,f,f,t},
+		{f,f,f,f,t},
+		{f,f,f,f,t},
+		{f,f,f,f,t},
+		{f,f,f,t,f},
+		{f,f,f,t,f},
+		{f,f,t,f,f}}; 
+	return l; }
+public static boolean [] [] leftParenthesis() {
+	boolean l [] [] = {
+		{f,f,t,f,f},
+		{f,t,f,f,f},
+		{f,t,f,f,f},
+		{t,f,f,f,f},
+		{t,f,f,f,f},
+		{t,f,f,f,f},
+		{t,f,f,f,f},
+		{f,t,f,f,f},
+		{f,t,f,f,f},
+		{f,f,t,f,f}}; 
+	return l; }
+
+public static boolean [] [] batman() {
+	boolean l [] [] = {
+		{f,f,f,t,f,f,f,f,f,t,f,t,f,f,f,f,f,t,f,f,f},
+		{f,f,t,t,t,f,f,f,f,t,t,t,f,f,f,f,t,t,t,f,f},
+		{f,t,t,t,f,f,f,f,t,t,t,t,t,f,f,f,f,t,t,t,f},
+		{f,t,t,t,t,f,f,f,t,t,t,t,t,f,f,f,t,t,t,t,f},
+		{t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t},
+		{f,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,f},
+		{f,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,f},
+		{f,f,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,t,f,f},
+		{f,f,f,t,t,f,t,f,f,t,t,t,f,f,t,f,t,t,f,f,f},
+		{f,f,f,f,t,f,f,f,f,f,t,f,f,f,f,f,t,f,f,f,f},
+		{f,f,f,f,f,f,f,f,f,f,t,f,f,f,f,f,f,f,f,f,f},
+		
+		}; 
+	return l; }
 
 }

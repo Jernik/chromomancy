@@ -191,11 +191,15 @@ public class Map {
 		case 'X':return ConcreteObject.Letter.x();
 		case 'Y':return ConcreteObject.Letter.y();
 		case 'Z':return ConcreteObject.Letter.z();
-				case ',':return ConcreteObject.Letter.comma();
-				case '!':return ConcreteObject.Letter.exclamation();
-				case '.':return ConcreteObject.Letter.period();
-				case '\'':return ConcreteObject.Letter.apostraphe(); 
-				case '?': return ConcreteObject.Letter.question();
+		case ',':return ConcreteObject.Letter.comma();
+		case '!':return ConcreteObject.Letter.exclamation();
+		case '.':return ConcreteObject.Letter.period();
+		case '\'':return ConcreteObject.Letter.apostraphe(); 
+		case '?': return ConcreteObject.Letter.question();
+                case ':': return ConcreteObject.Letter.colon();
+                case '#': return ConcreteObject.Letter.batman();
+                case'(' : return ConcreteObject.Letter.leftParenthesis();
+                case')' : return ConcreteObject.Letter.rightParenthesis();
 		}
 		return null;
 	}

@@ -22,7 +22,10 @@ import java.util.ArrayList;
 * including Listeners and Threads.
 */
 public class Display extends JFrame implements KeyListener, MouseListener, MouseMotionListener, Runnable, WindowListener {
-
+        /**
+         * a toggle for dev mode
+         */
+         //public boolean debug=true;
 	/**
 	* Thread to loop drawing to the frame
 	*/
@@ -58,7 +61,9 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	/**
 	* The map of the current level the player is at
 	*/
-	public Maps.Map map=new Maps.Map();
+        
+	public Maps.Map map=new Maps.Map3C();
+       
 	/**
 	* Starting time of program in milliseconds
 	*/
@@ -134,7 +139,10 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
          * Right now it has one flag, whether or not the player has visited Reena before, and how they reacted. These will probably need to 
          * have a lot of documentation.
          */
-        public int[] plotFlags=new int[1];
+        public int[] plotFlags=
+        {
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        };
                 
 	
 	/**
@@ -142,7 +150,10 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	* process, along with video-making code.
 	*/
 	public Display() {
-		betterDoubleBuffer = new BufferedImage(800,800, 1);
+            /*if(debug){
+                this.map=new Maps.Map3C();
+                this.title=false;
+            }*/betterDoubleBuffer = new BufferedImage(800,800, 1);
 		postTransformationImage = new BufferedImage(800,800, 1);
 		dbPlasma = betterDoubleBuffer.getRaster().getDataBuffer(); 
 		transformationBuffer = postTransformationImage.getRaster().getDataBuffer(); 
@@ -154,6 +165,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+                
 		init();
 		setVisible(true);
 		iTime=System.currentTimeMillis();
@@ -164,6 +176,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		Thread musicThread=new Thread(new Music.MusicPlayer());
 		musicThread.start();
                 System.out.println("PRELOOP");
+                //System.out.println(this.map.mapAI.colorDifference(0, 5));
 		LOOP:while (true) {
 			loopCount++;
 			//try {Thread.sleep(1);}catch(Exception e) {}
@@ -424,7 +437,8 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 			}
 		}
 		g=this.getGraphics();
-		g.drawImage(postTransformationImage,0,0,null);
+		//g.drawImage(postTransformationImage,0,0,null);
+		g.drawImage(betterDoubleBuffer,0,0,null);
 		frameCount++;
 		if (frameCount%1==1) {//That 1 makes the program run faster, but no frame capture
 			try {

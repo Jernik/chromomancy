@@ -13,11 +13,17 @@ public class MapAI {
     public Maps.Map owner=null;
     
     public int colorLevels[][]=new int[800][800]; 
-    
+    /**
+     * this basic update method, updates everything. In implementations of this, this can be used to interface with 
+     * the lower level AIs
+     */
     public void update(){
     updateColorLevels();
     }
     
+    /**
+     * cycles through every cell and stores the color levels in a 2d array
+     */
     public void updateColorLevels(){
         for(int i = 0;i<800;i++)
             for(int j=0;j<800;j++)
