@@ -18,11 +18,11 @@ public class MapAI {
      * the lower level AIs
      */
     public void update(){
-    updateColorLevels();
+    //updateColorLevels();
     }
     
     /**
-     * cycles through every cell and stores the color levels in a 2d array
+     * cycles through every cell and stores the color levels in a 2d array. doesnt really help anything yet, so isn't called
      */
     public void updateColorLevels(){
         for(int i = 0;i<800;i++)

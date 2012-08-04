@@ -176,7 +176,6 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		Thread musicThread=new Thread(new Music.MusicPlayer());
 		musicThread.start();
                 System.out.println("PRELOOP");
-                //System.out.println(this.map.mapAI.colorDifference(0, 5));
 		LOOP:while (true) {
 			loopCount++;
 			//try {Thread.sleep(1);}catch(Exception e) {}
@@ -506,10 +505,10 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 			
 		}
 		/**
-				 * processes collisions
-				 * @param projectile
-				 * @param entity 
-				 */
+		* processes collisions. this allows for changes in collision processing without digging in the checkCollisions code
+		* @param projectile
+		* @param entity 
+		*/
 	public void processCollisions(ConcreteObject.Projectile projectile, ConcreteObject.Entity entity){
 		//System.out.println("COLLISION DETECTED");
 		
@@ -610,7 +609,9 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 			try {
 				File frameOut = new File(("Screenie"+(frameCount/5))+".png");
 				ImageIO.write(betterDoubleBuffer, "png", frameOut);
-			} catch (IOException ex) {}
+			} catch (IOException ex) {//Ahh, another empty catch block!
+                        System.err.println("Error: Unable to print to file");
+                        }
 			}
 		}
 	}
@@ -670,6 +671,9 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		if (e.getButton()==MouseEvent.BUTTON3) {
 			mouse.rightDown=true;
 		}
+                if(e.getButton()==MouseEvent.BUTTON2){
+                    mouse.centerDown=true;
+                }
 	}
 	/**
 	* Used for debug.  Outputs frame rates.
@@ -688,6 +692,9 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		if (e.getButton()==MouseEvent.BUTTON3) {
 			mouse.rightDown=false;
 		}
+                if(e.getButton()==MouseEvent.BUTTON2){
+                    mouse.centerDown=false;
+                }
 	}
 	/**
 	* Does nothing.

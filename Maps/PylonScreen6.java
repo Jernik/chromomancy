@@ -20,7 +20,7 @@ public class PylonScreen6 extends DisplayObjects.PylonScreen {
 		g.drawRect(100,100,600,600);
 		g.setFont(new Font("Courier",Font.PLAIN,20));
 		g.setColor(Color.BLACK);
-		g.drawString("NEMO HEAL U",350,150);
+		g.drawString("WELCOME TO THE PYLON",350,150);
 		g.setFont(new Font("Courier",Font.PLAIN,12));
 		g.drawString(message,400-12*message.length()/3,675);
 		for (int i=0;i<buffer.size;i++) {
@@ -81,6 +81,7 @@ public class PylonScreen6 extends DisplayObjects.PylonScreen {
 				return;
 			}
 			if (args[0].equals("DIE")) {
+                                buffer.add("GOODBYE");
 				D.you.killed=true;
 				return;
 			}

@@ -130,6 +130,7 @@ public class Entity extends DynamicObject {
             b.D=this.D;
             this.projectiles.add(b);
         }
+        
         public void setUpAI(){
            ai.init();
            ai.owner=this;
