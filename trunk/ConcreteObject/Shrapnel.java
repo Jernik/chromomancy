@@ -108,14 +108,14 @@ public class Shrapnel extends ConcreteObject.Projectile{
         
         /**
          * This method is used to move the shrapnel closer to the player, 
-         * making it easier to pick up
+         * making it easier to pick up, sorta
          * 
          * I don't actually know what I'm doing here, so this works now after messing around with it
          */
     public void playerMagnet(){
         float xDiff=D.you.xLoc-this.xLoc;
         float yDiff=D.you.yLoc-this.yLoc;
-		float totalDistSquared=xDiff*xDiff+yDiff*yDiff;
+	float totalDistSquared=xDiff*xDiff+yDiff*yDiff;
         if((totalDistSquared!=0) && (totalDistSquared<2500)){
 			if (xDiff>0) {
 				this.xAccel+=(float)1f*xDiff/(totalDistSquared*(xDiff+yDiff));

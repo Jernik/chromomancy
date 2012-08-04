@@ -37,6 +37,8 @@ public class PlasmaBomb extends ConcreteObject.Projectile{
 		if (this.delay<=0 && this.power>0) {
 			this.power--;
 		}
+                if(delay<=0&&power<=0)
+                    this.owner.projectiles.remove(this);
 	}
    
 	public int getColor(){

@@ -31,7 +31,7 @@ public class BasicAI {
     public boolean inDanger = false;
     
     /**
-     * the arraylist of where the danger is
+     * the array of where the danger is
      */
     public int[][] dangerSource = new int[800][800];
     /**
@@ -70,7 +70,7 @@ public class BasicAI {
     }
 
     public void init() {
-        //System.out.println("Initializing BasicAI");
+        System.out.println("Initializing BasicAI");
     }
 
     /**
@@ -83,7 +83,7 @@ public class BasicAI {
                 isInDanger();
             }
             if (inDanger) {
-                findSafePlace();
+                findSafePlaces();
             }
             //checkPlayerLoc();
             if (!this.owner.killed && !override) {
@@ -119,7 +119,7 @@ public class BasicAI {
                 //System.out.println(this.owner.xLoc+" "+this.owner.yLoc);
                 if (i <= 800 && i >= 0 && j <= 800 && j >= 0) {
                     //System.out.println(owner.colorDifference(this.owner.D.field.interpolatedDensity(i,j), this.owner.red*256*256+this.owner.green*256+this.owner.blue));
-                    if (owner.colorDifference(this.owner.D.field.interpolatedDensity(i, j), this.owner.red * 256 * 256 + this.owner.green * 256 + this.owner.blue) > this.owner.resistance) {
+                    if (owner.colorDifference(this.owner.D.field.interpolatedDensity(i, j), this.owner.red * 256 * 256 + this.owner.green * 256 + this.owner.blue) < this.owner.resistance) {
                         this.inDanger = true;
                         //System.out.println(this.owner.name + "is in danger");
                         //System.out.println(i+" "+j);
@@ -133,13 +133,13 @@ public class BasicAI {
     /**
      * This will check against dangerSource and find a safe place to go
      */
-    public void findSafePlace() {
+    public void findSafePlaces() {
         System.out.println(this.owner.name + "Searching for safety");
         for(int i=(int) (this.owner.xLoc - safetySearchRadius); i < (int) (this.owner.xLoc + safetySearchRadius); i++){
             for (int j = (int) (this.owner.yLoc - safetySearchRadius); j < (int) (this.owner.yLoc + safetySearchRadius); j++) {
                 if(
                         (owner.colorDifference(dangerSource[i][j],this.owner.resistance)
-                        <0))
+                        >this.owner.resistance))
                     this.xLocSafe.add((float)i);
                     this.yLocSafe.add((float)j);
                     //System.out.println(i+", "+j); Oh god, so much printing
@@ -215,9 +215,26 @@ public class BasicAI {
     /**
      * this method will move(pathfind?) towards the nearest safe spot To find
      * this, it will probably need recursion to check every step of the path. I
-     * hate recursion.
+     * hate recursion. maybe I can do something iteratively. Lets try this
+     * Or, I can just make this beautiful thing instead
      */
     public void moveToSafety() {
+/*        if(this.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
+                owner.ai.owner.ai.owner.ai.owner.D.map.D.map.D.map.D.map.D.map.D.map.D.map.D.map.D.map.D.map.D.map.
+                entities.contains(owner))
+            return;*/
+        
     }
 
     /**
@@ -241,7 +258,7 @@ public class BasicAI {
 
     /**
      * this method calculates the vectors needed to hit the location found in
-     * predictPosition() after 500 cycles(or exactly that) return {xVel,yVel}
+     * predictPosition() after 50 cycles(or exactly that, actually) return {xVel,yVel}
      * BETTER TARGET METHOD USED NOW
      */
     public int[] calculateVectors(float[] position) {

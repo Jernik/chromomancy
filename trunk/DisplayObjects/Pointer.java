@@ -17,6 +17,10 @@ public class Pointer {
 	* Whether or not the right button is down
 	*/
 	public static boolean rightDown=false;
+	/**
+	* Whether or not the center button is down
+	*/
+	public static boolean centerDown=false;
 	
 	/**
 	* Constructor sets original mouse position

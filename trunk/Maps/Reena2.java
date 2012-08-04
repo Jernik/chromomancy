@@ -93,5 +93,6 @@ public class Reena2 extends ConcreteObject.Entity {
                 this.talk=new Talking.Talk("#",null,null);//batman symbol. is very important.
 		this.saying=this.talk;
         }
+        
      }
 }

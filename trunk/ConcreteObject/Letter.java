@@ -479,7 +479,11 @@ public static boolean [] [] leftParenthesis() {
 		{f,t,f,f,f},
 		{f,f,t,f,f}}; 
 	return l; }
-
+/**
+ * my pride and joy, the epitome of my coding, this is the most amazing thing I have ever constructed
+ * I will use this as often as possible.
+ * @return 
+ */
 public static boolean [] [] batman() {
 	boolean l [] [] = {
 		{f,f,f,t,f,f,f,f,f,t,f,t,f,f,f,f,f,t,f,f,f},
