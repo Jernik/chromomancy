@@ -9,24 +9,25 @@ public class Map6 extends Maps.Map {
 	/**
 	* {inheritdoc}
 	*/
-	public Map6() {
-		this.up=new Maps.Map();
+	public Map6() {}
+	/**
+	* {inheritdoc}
+	*/
+	public void init() {
 		this.pylon=new Pylon6();
+		this.pylon.D=this.D;
+		this.pylon.init();
+		this.up=new Maps.Map();
+		this.up.D=this.D;
+		this.down=new Maps.Map7();
+		this.down.D=this.D;
         levelName="Map6";
 	}
 	/**
 	* {inheritdoc}
 	*/
-	public void init() {
-		this.pylon.D=this.D;
-		this.pylon.init();
-		this.up.D=this.D;
-		System.out.println(D);
-		//D.you.killed=true;
+	public void draw(java.awt.image.DataBuffer buffer) {
+		drawConnections(buffer);
 	}
-	/**
-	* {inheritdoc}
-	*/
-	public void draw(java.awt.image.DataBuffer buffer) {}
 
 }
