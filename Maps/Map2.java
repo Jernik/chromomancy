@@ -20,13 +20,13 @@ public class Map2 extends Maps.Map {
 		this.down=new Maps.Map();
 		this.down.D=this.D;
 		levelName="Map2";
-		ConcreteObject.Entity reena=new Maps.Reena2();
+		ConcreteObject.Entity reena=new Maps.Entities.Reena2();
 		reena.Color(127,127,127);
 		reena.Displacement(400,400);
 		reena.D=this.D;
 		this.entities.add(reena);
-                ((Maps.Reena2)reena).talk();
-		((Maps.Reena2)reena).init();
+        ((Maps.Entities.Reena2)reena).talk();
+		((Maps.Entities.Reena2)reena).init();
 	}
 	/**
 	* {inheritdoc}
