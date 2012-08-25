@@ -9,7 +9,14 @@ public class Flower7 extends ConcreteObject.Entity {
 	public Flower7() {}
 	
 	public void draw(java.awt.image.DataBuffer buffer) {
-		super.draw(buffer);
+		for (int i=0;i<this.projectiles.size();i++) {
+			this.projectiles.get(i).draw(buffer);
+		}
+		for (int i=0;i<100;i++) {
+			int x=(int)(this.xLoc+10*Math.cos(2*i/1.0)*Math.cos(i/1.0));
+			int y=(int)(this.yLoc+10*Math.cos(2*i/1.0)*Math.sin(i/1.0));
+			buffer.setElem(800*y+x,255*256);
+		}
 	}
 	
 	public void loop(float time) {
