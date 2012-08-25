@@ -62,7 +62,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	* The map of the current level the player is at
 	*/
         
-	public Maps.Map map=new Maps.Map3C();
+	public Maps.Map map=new Maps.Map();
        
 	/**
 	* Starting time of program in milliseconds
@@ -169,13 +169,11 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		init();
 		setVisible(true);
 		iTime=System.currentTimeMillis();
-		step();
-		drawingThread=new Thread(this);
-		System.out.println("THREAD");
-		drawingThread.start();
 		Thread musicThread=new Thread(new Music.MusicPlayer());
 		musicThread.start();
-                System.out.println("PRELOOP");
+		drawingThread=new Thread(this);
+		drawingThread.start();
+        System.out.println("PRELOOP");
 		LOOP:while (true) {
 			loopCount++;
 			//try {Thread.sleep(1);}catch(Exception e) {}
@@ -348,6 +346,8 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 			field.xVel[i]=0.0f;
 			field.yVel[i]=0.0f;
 		}
+		you.xVel=0;
+		you.yVel=0;
 		drawingThread=new Thread(this);
 	}
 	/**
@@ -385,7 +385,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		if (you.killed) {
 			deathAnimation();
 		}
-                map.update();
+        map.update();
 	}
 	/**
 	* This draws the game screen to the buffer.
@@ -451,18 +451,6 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 		}
 		
 	}
-	
-	/*public int reflect256(int n) {
-		if (n<256) return n;
-		return 512-n;
-	}
-	
-	public Color doubleToColor(double d) {
-		if (d<0) d=-d;
-		return new Color((int)(d*100)%256,(int)(d*10)%256,(int)(d*1)%256);
-	}
-	
-	public void paint(Graphics g) {}*/
 	
 	public void chill() {
 		long time=System.currentTimeMillis();
@@ -647,18 +635,6 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	* they are activated.
 	*/
 	public void keyTyped(KeyEvent e) {
-		/*if (e.getKeyChar()==' ') {
-			deathAnimation();
-		}
-		if (e.getKeyChar()=='e' && passwordTyped==0) {
-			passwordTyped=1;
-		}
-		if (e.getKeyChar()=='n' && passwordTyped==1) {
-			passwordTyped=2;
-		}
-		if (e.getKeyChar()=='d' && passwordTyped==2) {
-			System.exit(0);
-		}*/
 	}
 	/**
 	* This sends mouse actions to the Pointer object
