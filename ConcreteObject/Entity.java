@@ -120,7 +120,7 @@ public class Entity extends DynamicObject {
             return intersect;
         }
         
-        public void fireBullet(int xVel, int yVel){
+        public void fireBullet(float xVel, float yVel){
             ConcreteObject.EnemyBullet b = new ConcreteObject.EnemyBullet();
             b.Displacement((float)xLoc,(float)yLoc);
             b.Color(this.red,this.green,this.blue);

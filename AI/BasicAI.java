@@ -147,6 +147,15 @@ public class BasicAI {
         }
 
     }
+    /**
+     * this method will move(pathfind?) towards the nearest safe spot To find
+     * this, it will probably need recursion to check every step of the path. I
+     * hate recursion. maybe I can do something iteratively. Lets try this
+     */
+    public void moveToSafety() {
+
+        
+    }
 
     /**
      * this method will just use the distance formula to check the distance
@@ -212,30 +221,7 @@ public class BasicAI {
         cooldown = 2000;
     }
 
-    /**
-     * this method will move(pathfind?) towards the nearest safe spot To find
-     * this, it will probably need recursion to check every step of the path. I
-     * hate recursion. maybe I can do something iteratively. Lets try this
-     * Or, I can just make this beautiful thing instead
-     */
-    public void moveToSafety() {
-/*        if(this.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.owner.ai.
-                owner.ai.owner.ai.owner.ai.owner.D.map.D.map.D.map.D.map.D.map.D.map.D.map.D.map.D.map.D.map.D.map.
-                entities.contains(owner))
-            return;*/
-        
-    }
+    
 
     /**
      * this method calculates where the target will be in... 50
