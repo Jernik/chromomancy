@@ -106,7 +106,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	/**
 	* The music player that holds music information
 	*/
-	public Music.MusicPlayer music;
+	public Music.MusicPlayerOld music;
 	
     /**
 	* Whether or not the Inventory is open

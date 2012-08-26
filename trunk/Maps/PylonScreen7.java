@@ -81,7 +81,7 @@ public class PylonScreen7 extends DisplayObjects.PylonScreen {
 				return;
 			}
 			if (args[0].equals("DIE")) {
-                buffer.add("GOODBYE");
+                                buffer.add("GOODBYE");
 				D.you.killed=true;
 				return;
 			}

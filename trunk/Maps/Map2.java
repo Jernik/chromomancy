@@ -25,7 +25,7 @@ public class Map2 extends Maps.Map {
 		reena.Displacement(400,400);
 		reena.D=this.D;
 		this.entities.add(reena);
-        ((Maps.Entities.Reena2)reena).talk();
+        //((Maps.Entities.Reena2)reena).talk();
 		((Maps.Entities.Reena2)reena).init();
 	}
 	/**
