@@ -21,6 +21,10 @@ public class Pointer {
 	* Whether or not the center button is down
 	*/
 	public static boolean centerDown=false;
+	/**
+	* If the mouse wheel is moving up, this is 1, down is -1, and not moving is 0
+	*/
+	public static int mouseWheelDirection=0;
 	
 	/**
 	* Constructor sets original mouse position
