@@ -22,14 +22,13 @@ public class BasicAI {
      */
     public boolean checkDanger = true;
     /**
-     * not actually used right now
+     * not actually used right now, replaced by the hostility matrix in display
      */
     public boolean hostile;
     /**
      * whether or not the entity is in danger
      */
     public boolean inDanger = false;
-    
     /**
      * the array of where the danger is
      */
@@ -42,7 +41,7 @@ public class BasicAI {
     /**
      * if this is being overridden, this provides a better way to interface
      */
-    public AI.MapAI overlord=null;
+    public AI.MapAI overlord = null;
     /**
      * whether or not the player is in range of this entity's sight
      */
@@ -50,18 +49,21 @@ public class BasicAI {
     /**
      * the location of safe places
      */
-    public ArrayList<Float> xLocSafe=new ArrayList<Float>();
-    public ArrayList<Float> yLocSafe=new ArrayList<Float>();
+    public ArrayList<Float> xLocSafe = new ArrayList<Float>();
+    public ArrayList<Float> yLocSafe = new ArrayList<Float>();
     //public float xLocSafe, yLocSafe;
     /**
      * firing cooldown
      */
     public int cooldown = 0;
-    
     /**
      * how far this AI looks for danger
      */
-    public int safetySearchRadius=20;
+    public int safetySearchRadius = 20;
+    /**
+     * the destinations for the pathfinding
+     */
+    float xDest, yDest;
 
     /**
      * Null constructor
@@ -71,6 +73,8 @@ public class BasicAI {
 
     public void init() {
         System.out.println("Initializing BasicAI");
+        xLocSafe.add(0f);
+        yLocSafe.add(0f);
     }
 
     /**
@@ -102,18 +106,27 @@ public class BasicAI {
      */
     public void resetStuff() {
         inDanger = false;
-        dangerSource=new int[800][800];
+        dangerSource = new int[800][800];
         //TODO reset safeplace if safeplace is no longer safe or if owner is pretty close to safeplace
+        if (Math.abs(xDest - this.owner.xLoc) < 1) {
+            this.xLocSafe = new ArrayList<Float>();
+            float add=0;
+            xLocSafe.add(add);
+        }
+        if (Math.abs(yDest - this.owner.yLoc) < 1) {
+            this.yLocSafe = new ArrayList<Float>();
+            float add=0;
+            yLocSafe.add(add);
+        }
     }
 
     /**
      * this method will check this.owner.map.mapAI.colorLevels to see if there
      * is a concentration of similar colored plasma that will lead to
-     * dissolvement within 6 cells
-     * Whoo, it works!
+     * dissolvement within 6 cells Whoo, it works!
      */
     public void isInDanger() {
-        
+
         for (int i = (int) (this.owner.xLoc - safetySearchRadius); i < (int) (this.owner.xLoc + safetySearchRadius); i++) {
             for (int j = (int) (this.owner.yLoc - safetySearchRadius); j < (int) (this.owner.yLoc + safetySearchRadius); j++) {
                 //System.out.println(this.owner.xLoc+" "+this.owner.yLoc);
@@ -134,27 +147,45 @@ public class BasicAI {
      * This will check against dangerSource and find a safe place to go
      */
     public void findSafePlaces() {
-        System.out.println(this.owner.name + "Searching for safety");
-        for(int i=(int) (this.owner.xLoc - safetySearchRadius); i < (int) (this.owner.xLoc + safetySearchRadius); i++){
+        //System.out.println(this.owner.name + "Searching for safety");
+        for (int i = (int) (this.owner.xLoc - safetySearchRadius); i < (int) (this.owner.xLoc + safetySearchRadius); i++) {
             for (int j = (int) (this.owner.yLoc - safetySearchRadius); j < (int) (this.owner.yLoc + safetySearchRadius); j++) {
-                if(
-                        (owner.colorDifference(dangerSource[i][j],this.owner.resistance)
-                        >this.owner.resistance))
-                    this.xLocSafe.add((float)i);
-                    this.yLocSafe.add((float)j);
-                    //System.out.println(i+", "+j); Oh god, so much printing
+                if ((owner.colorDifference(dangerSource[i][j], this.owner.resistance)
+                        > this.owner.resistance)) {
+                    this.xLocSafe.add((float) i);
+                }
+                this.yLocSafe.add((float) j);
+                //System.out.println(i+", "+j); Oh god, so much printing
             }
         }
 
     }
+
     /**
      * this method will move(pathfind?) towards the nearest safe spot To find
      * this, it will probably need recursion to check every step of the path. I
      * hate recursion. maybe I can do something iteratively. Lets try this
      */
     public void moveToSafety() {
+        System.out.println(this.owner.name+" is moving to safety");
+        int i = (int) (Math.random() * xLocSafe.size());
+        int j = (int) (Math.random() * yLocSafe.size());
+        if (xDest == 0) {
+            xDest = xLocSafe.get(i);
+        }
+        if (yDest == 0) {
+            yDest = yLocSafe.get(j);
+        }
+        float[] ownerPosition = {this.owner.xLoc, this.owner.yLoc};
+        float[] destPostion = {xDest, yDest};
+        float[] movementVectors = calculateVectors(destPostion, ownerPosition, 50);
+        //this.owner.xAccel = movementVectors[0];
+        //this.owner.yAccel = movementVectors[1];
+        this.owner.xVel = movementVectors[0]*10;
+        this.owner.yVel = movementVectors[1]*10;
 
-        
+
+
     }
 
     /**
@@ -215,18 +246,18 @@ public class BasicAI {
      */
     public void shootAtTarget(ConcreteObject.Entity target) {
         float[] position = predictPosition(target);
-        int[] vectors = calculateVectors(position);
+        float[] ownerPosition = {this.owner.xLoc, this.owner.yLoc};
+        float[] vectors = calculateVectors(position, ownerPosition, 50);
         this.owner.fireBullet(vectors[0], vectors[1]);
 
         cooldown = 2000;
     }
 
-    
-
     /**
      * this method calculates where the target will be in... 50
      * cycles(arbitrary) then returns an array of floats that is the player's
-     * predicted location. BETTER TARGET METHOD USED NOW.(or... will be, not used yet...I am a bit lazy)
+     * predicted location. BETTER TARGET METHOD USED NOW.(or... will be, not
+     * used yet...I am a bit lazy)
      *
      * @return {xLoc,yLoc}
      */
@@ -244,13 +275,13 @@ public class BasicAI {
 
     /**
      * this method calculates the vectors needed to hit the location found in
-     * predictPosition() after 50 cycles(or exactly that, actually) return {xVel,yVel}
-     * BETTER TARGET METHOD USED NOW
+     * predictPosition() after 50 cycles(or exactly that, actually) return
+     * {xVel,yVel} BETTER TARGET METHOD USED NOW
      */
-    public int[] calculateVectors(float[] position) {
-        int[] vectors = {0, 0};
-        vectors[0] = ((int) (position[0] - this.owner.xLoc) / 50);
-        vectors[1] = (int) (position[1] - this.owner.yLoc) / 50;
+    public float[] calculateVectors(float[] position1, float[] position2, int cycles) {
+        float[] vectors = {0, 0};
+        vectors[0] = ((position1[0] - position2[0]) / cycles);
+        vectors[1] = ((position1[1] - position2[1]) / cycles);
 
         return vectors;
     }
@@ -259,9 +290,11 @@ public class BasicAI {
      * this is what the entity does normally, ie. when it is not in danger
      */
     public void normalMovement() {
-        if(this.owner.yLoc<20)
-            this.owner.yAccel+=.05;
-        if(this.owner.yLoc>500)
-            this.owner.yAccel-=.05;
+        if (this.owner.yLoc < 20) {
+            this.owner.yAccel += .05;
+        }
+        if (this.owner.yLoc > 500) {
+            this.owner.yAccel -= .05;
+        }
     }
 }
