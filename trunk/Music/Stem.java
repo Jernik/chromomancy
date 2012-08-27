@@ -6,6 +6,8 @@ package Music;
  * file and any other information necessary to playing/mixing the clip.
  * @author Luke M
  */
+import javax.sound.sampled.*;
 public class Stem {
+    public Clip clip;
     
 }
