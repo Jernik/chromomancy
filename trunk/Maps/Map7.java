@@ -52,6 +52,12 @@ public class Map7 extends Maps.Map {
 			this.up=new Maps.Map6();
 			this.up.D=this.D;
 		}
+                if(flowers>=42){
+                    this.up= new Maps.Map8();
+                    this.down= new Maps.Map8();
+                    this.left= new Maps.Map8();
+                    this.right= new Maps.Map8();
+                }
 	}
 
 }

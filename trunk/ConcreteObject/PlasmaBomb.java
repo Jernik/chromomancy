@@ -38,7 +38,7 @@ public class PlasmaBomb extends ConcreteObject.Projectile{
 			this.power--;
 		}
                 if(delay<=0&&power<=0)
-                    this.owner.projectiles.remove(this);
+                    kill();
 	}
    
 	public int getColor(){
@@ -85,7 +85,8 @@ public class PlasmaBomb extends ConcreteObject.Projectile{
 	 * kill method
 	 */
 	public void kill(){
-		detonate();
+		//detonate();
+            this.owner.projectiles.remove(this);
 	}
 	/**
 	 * this will affect the plasma field and stuff and things

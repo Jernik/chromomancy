@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ConcreteObject;
 
 /**
@@ -10,8 +6,31 @@ package ConcreteObject;
  */
 public class ExplodingBullet extends ConcreteObject.PlasmaBomb{
     
-    public void kill(){
+    int numOfChildren=4;
     
+    public void kill(){
+        SmallBullet a =new SmallBullet();
+        a.Displacement(this.xLoc, this.yLoc);
+        a.Velocity(2, 0);
+        a.D=this.D;
+        this.owner.projectiles.add(a);
+        a =new SmallBullet();
+        a.Displacement(this.xLoc, this.yLoc);
+        a.Velocity(0, 2);
+        a.D=this.D;
+        this.owner.projectiles.add(a);
+        a =new SmallBullet();
+        a.Displacement(this.xLoc, this.yLoc);
+        a.Velocity(0, -2);
+        a.D=this.D;
+        this.owner.projectiles.add(a);
+        a =new SmallBullet();
+        a.Displacement(this.xLoc, this.yLoc);
+        a.Velocity(-2, 0);
+        a.D=this.D;
+        this.owner.projectiles.add(a);
+        this.owner.projectiles.remove(this);
     }
+    public void emit(DisplayObjects.FluidField field){}
     
 }
