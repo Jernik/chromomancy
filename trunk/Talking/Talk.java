@@ -1,5 +1,7 @@
 package Talking;
 
+import java.lang.Runnable;
+
 /**
 * Tree structure used to hold dialogue.
 */
@@ -17,6 +19,13 @@ public class Talk {
 	* List of responses corresponding to input options.
 	*/
 	public Talk[] responses;
+	/**
+	* The method that should be run when this talk object is executed.
+	* By default this does nothing.
+	*/
+	public Runnable method=new Runnable() {
+		public void run() {}
+	};
 
 	/**
 	* Constructor.
