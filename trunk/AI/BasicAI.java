@@ -150,9 +150,11 @@ public class BasicAI {
         //System.out.println(this.owner.name + "Searching for safety");
         for (int i = (int) (this.owner.xLoc - safetySearchRadius); i < (int) (this.owner.xLoc + safetySearchRadius); i++) {
             for (int j = (int) (this.owner.yLoc - safetySearchRadius); j < (int) (this.owner.yLoc + safetySearchRadius); j++) {
+                if(i>=0&&j>=0){
                 if ((owner.colorDifference(dangerSource[i][j], this.owner.resistance)
                         > this.owner.resistance)) {
                     this.xLocSafe.add((float) i);
+                }
                 }
                 this.yLocSafe.add((float) j);
                 //System.out.println(i+", "+j); Oh god, so much printing
@@ -167,7 +169,7 @@ public class BasicAI {
      * hate recursion. maybe I can do something iteratively. Lets try this
      */
     public void moveToSafety() {
-        System.out.println(this.owner.name+" is moving to safety");
+       // System.out.println(this.owner.name+" is moving to safety");
         int i = (int) (Math.random() * xLocSafe.size());
         int j = (int) (Math.random() * yLocSafe.size());
         if (xDest == 0) {
@@ -178,11 +180,11 @@ public class BasicAI {
         }
         float[] ownerPosition = {this.owner.xLoc, this.owner.yLoc};
         float[] destPostion = {xDest, yDest};
-        float[] movementVectors = calculateVectors(destPostion, ownerPosition, 50);
+        float[] movementVectors = calculateVectors(destPostion, ownerPosition, 10);
         //this.owner.xAccel = movementVectors[0];
         //this.owner.yAccel = movementVectors[1];
-        this.owner.xVel = movementVectors[0]*10;
-        this.owner.yVel = movementVectors[1]*10;
+        this.owner.Velocity(movementVectors[0], movementVectors[1]);
+        //this.owner.yVel = movementVectors[1]*10;
 
 
 
