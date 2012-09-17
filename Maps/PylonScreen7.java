@@ -68,6 +68,17 @@ public class PylonScreen7 extends DisplayObjects.PylonScreen {
 				D.deactivatePylon();
 				return;
 			}
+			if (args[0].equals("LIZZIE")) {
+                D.map.up=new Maps.Map8();
+		D.map.up.D=this.D;
+		D.map.down=new Maps.Map8();
+		D.map.down.D=this.D;
+		D.map.left=new Maps.Map8();
+		D.map.left.D=this.D;
+		D.map.right=new Maps.Map8();
+		D.map.right.D=this.D;
+				return;
+			}
 			if (args[0].equals("CLOSE")) {
 				D.deactivatePylon();
 				return;
