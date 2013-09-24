@@ -1,6 +1,7 @@
 package DisplayObjects;
 
 import javax.swing.JFrame;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
@@ -14,7 +15,11 @@ import java.awt.event.WindowEvent;
 import java.lang.Exception;
 import java.lang.Runnable;
 import java.io.*;
+
 import javax.imageio.*;
+
+import Music.MusicPlayer;
+
 import java.util.ArrayList;
 
 /**
@@ -106,7 +111,7 @@ public class Display extends JFrame implements KeyListener, MouseListener, Mouse
 	/**
 	* The music player that holds music information
 	*/
-	public Music.MusicPlayerOld music;
+	public MusicPlayer music;
 	
     /**
 	* Whether or not the Inventory is open

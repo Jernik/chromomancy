@@ -6,11 +6,11 @@ package NULL;
 public class Null {
 
 	Null(Null Null) {
-		Null(null);
+		//Null(null);
 	}
 	
-	Null Null(Null Null) {
+	/*Null Null(Null Null) {
 		return Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null(Null)))))))))))))))))))))))))))));
-	}
+	}*/
         
 }
